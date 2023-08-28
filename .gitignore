@@ -1,0 +1,43 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/SalesManager/dist
+/SalesManager/tmp
+/SalesManager/out-tsc
+/SalesManager/bazel-out
+
+# Node
+/SalesManager/node_modules
+/SalesManager/npm-debug.log
+/SalesManager/yarn-error.log
+
+# IDEs and editors
+/SalesManager/.idea/
+/SalesManager/.project
+/SalesManager/.classpath
+/SalesManager/.c9/
+/SalesManager/*.launch
+/SalesManager/.settings/
+/SalesManager/*.sublime-workspace
+
+# Visual Studio Code
+/SalesManager/.vscode/*
+/SalesManager/!.vscode/settings.json
+/SalesManager/!.vscode/tasks.json
+/SalesManager/!.vscode/launch.json
+/SalesManager/!.vscode/extensions.json
+/SalesManager/.history/*
+
+# Miscellaneous
+/SalesManager/.angular/cache
+/SalesManager.sass-cache/
+/SalesManager/connect.lock
+/SalesManager/coverage
+/SalesManager/libpeerconnection.log
+/SalesManagertestem.log
+/SalesManager/typings
+
+# System files
+/SalesManager/.DS_Store
+/SalesManager/Thumbs.db
+
