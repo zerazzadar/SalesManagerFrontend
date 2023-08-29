@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl } from "@angular/forms";
 import { Observable, map, startWith } from "rxjs";
+import { Account } from "src/app/Models/Account";
+import { AccountService } from "src/app/Services/accountService.service";
 
 @Component({
   selector: "app-account",
@@ -8,24 +10,57 @@ import { Observable, map, startWith } from "rxjs";
   styleUrls: ["./account.component.css"],
 })
 export class AccountComponent implements OnInit {
-  public myControl = new FormControl("");
+  protected accounts: Account[] = [];
+  public loading: boolean = false;
 
-  options: string[] = ["One", "Two", "Three"];
+  myControl = new FormControl<Account>(new Account());
+  filteredAccounts: Observable<Account[]> | undefined;
 
-  filteredOptions: Observable<string[]> | undefined;
+  constructor(private accountService: AccountService) {
+    this.accounts = [];
+  }
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.LoadAccounts();
+  }
+
+  LoadAccounts(): void {
+    this.loading = true;
+    this.accountService.getListAccounts().subscribe((data) => {
+      this.loading = false;
+      this.accounts = data;
+      this.FillFilteredAccounts();
+    });
+  }
+
+  private FillFilteredAccounts(): void {
+    this.filteredAccounts = this.myControl.valueChanges.pipe(
       startWith(""),
-      map((value) => this._filter(value || ""))
+      map((value) => {
+        const name = typeof value === "string" ? value : value?.name;
+        return name ? this._filter(name as string) : this.accounts.slice();
+      })
     );
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
+  displayFn(user: Account): string {
+    return user && user.name ? user.name : "";
+  }
 
-    return this.options.filter((option) =>
-      option.toLowerCase().includes(filterValue)
+  private _filter(name: string): Account[] {
+    const filterValue = name.toLowerCase();
+
+    return this.accounts.filter((option) =>
+      option.name.toLowerCase().includes(filterValue)
     );
+  }
+
+  public selectAccountToProcess() {
+    let values = this.myControl.value;
+    console.log(values?.id);
+  }
+
+  public isAccountSelected(): boolean {
+    return !this.myControl.value == null;
   }
 }
