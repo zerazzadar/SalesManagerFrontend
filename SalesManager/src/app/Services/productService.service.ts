@@ -20,13 +20,17 @@ export class ProductService {
 
   constructor(private http: HttpClient) {}
 
-  getListProducts(): Observable<Product[]> {
+  public getListProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.myAppUrl + this.myApiUrl);
   }
 
-  getListProductsWthName(name: string): Observable<Product[]> {
-    return this.http.get<Product[]>(
-      this.myAppUrl + this.myApiUrl + this.productsWithName + name
-    );
+  public getListProductsWthName(name: string): Observable<Product[]> {
+    if (typeof name != "undefined" && name) {
+      return this.http.get<Product[]>(
+        this.myAppUrl + this.myApiUrl + this.productsWithName + name
+      );
+    } else {
+      return this.getListProducts();
+    }
   }
 }
