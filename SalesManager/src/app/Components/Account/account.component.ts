@@ -3,6 +3,8 @@ import { FormControl } from "@angular/forms";
 import { Observable, map, startWith } from "rxjs";
 import { Account } from "src/app/Models/Account";
 import { AccountService } from "src/app/Services/accountService.service";
+import { Router } from "@angular/router";
+import { OrderService } from "src/app/Services/orderService.service";
 
 @Component({
   selector: "app-account",
@@ -16,7 +18,11 @@ export class AccountComponent implements OnInit {
   myControl = new FormControl<Account>(new Account());
   filteredAccounts: Observable<Account[]> | undefined;
 
-  constructor(private accountService: AccountService) {
+  constructor(
+    private accountService: AccountService,
+    private orderService: OrderService,
+    private router: Router
+  ) {
     this.accounts = [];
   }
 
@@ -56,11 +62,12 @@ export class AccountComponent implements OnInit {
   }
 
   public selectAccountToProcess() {
-    let values = this.myControl.value;
-    console.log(values?.id);
-  }
+    let accountId = this.myControl.value?.id;
 
-  public isAccountSelected(): boolean {
-    return !this.myControl.value == null;
+    if (accountId != null) {
+      this.orderService.setAccountId(accountId);
+    }
+
+    this.router.navigate(["/Order"]);
   }
 }
