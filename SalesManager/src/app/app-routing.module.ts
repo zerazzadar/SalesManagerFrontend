@@ -1,11 +1,17 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AccountComponent } from "./Components/Account/account/account.component";
+import { AccountComponent } from "./Components/Account/account.component";
+import { OrderComponent } from "./Components/Order/order.component";
 
 const routes: Routes = [
   {
     path: "Account",
     component: AccountComponent,
+    pathMatch: "full",
+  },
+  {
+    path: "Order",
+    component: OrderComponent,
     pathMatch: "full",
   },
   {
