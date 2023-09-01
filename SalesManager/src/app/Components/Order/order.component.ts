@@ -19,13 +19,16 @@ import { ProductService } from "src/app/Services/productService.service";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
-  protected products: OrderLineItem[] = [];
-
+  protected orderLineItemList: OrderLineItem[] = [];
+  protected products: Product[] = [];
   public loading: boolean = false;
-  private obs$!: Subscription;
   public productName: string = "";
 
+  private obs$!: Subscription;
   public products$: Subject<Product[]> = new Subject<Product[]>();
+  public orderLineItemList$: Subject<OrderLineItem[]> = new Subject<
+    OrderLineItem[]
+  >();
   private searchText$ = new Subject<string>();
 
   constructor(
@@ -37,14 +40,14 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.loadAllProducts();
-    this.LinkRefreshProductsForFilter();
+    this.ProductFilterLoad();
   }
 
   ngOnDestroy() {
     this.obs$.unsubscribe();
   }
 
-  private LinkRefreshProductsForFilter(): void {
+  private ProductFilterLoad(): void {
     this.obs$ = this.searchText$
       .pipe(
         debounceTime(500),
@@ -61,26 +64,68 @@ export class OrderComponent implements OnInit {
   private loadAllProducts(): void {
     this.productService.getListProducts().subscribe({
       next: (valor: Product[]) => {
+        this.products = valor;
+        this.fillOrderLineItemArray(8);
         this.products$.next(valor);
       },
       error: (err) => console.log(err),
     });
   }
 
-  getValue(event: Event): string {
-    return (event.target as HTMLInputElement).value;
+  protected searchProductbyId(productId: number): Product {
+    return this.products.find((product) => product.id === productId)!;
   }
 
-  public addProductToCart(event: Event): void {
+  protected addProductToCar(event: Event): void {
     console.log((event.target as HTMLInputElement).value);
   }
 
-  search(packageName: string) {
+  protected updateProductFilteredList(packageName: string) {
     this.searchText$.next(packageName);
   }
 
-  public resetFilter(): void {
+  protected resetProductFilterList(): void {
     this.productName = "";
     this.loadAllProducts();
+  }
+
+  protected setOrderLineItemLQuantity(event: Event): void {
+    let input = event.target as HTMLInputElement;
+    let orderItemId = input.getAttribute("data-orderItem")!;
+    let value = input.value;
+
+    const index = this.orderLineItemList.findIndex(
+      (item) => item.id! === Number(orderItemId)
+    );
+
+    let product = this.searchProductbyId(
+      this.orderLineItemList[index].productId
+    );
+
+    this.orderLineItemList[index].quantity = Number(value);
+    this.orderLineItemList[index].lineItemPrice = product.price * Number(value);
+  }
+
+  keyPressNumbers(event: KeyboardEvent) {
+    const key = event.key;
+    if (!/[0-9]/.test(key)) {
+      event.preventDefault();
+    }
+  }
+
+  protected getValue(event: Event): string {
+    return (event.target as HTMLInputElement).value;
+  }
+
+  fillOrderLineItemArray(lineItemCount: number): void {
+    for (let i = 0; i < lineItemCount; i++) {
+      const lineItem = new OrderLineItem();
+      lineItem.id = Math.floor(Math.random() * 1000);
+      lineItem.productId = i + 1;
+      lineItem.orderId = Math.floor(Math.random() * 1000);
+      lineItem.quantity = Math.floor(Math.random() * 10);
+      lineItem.lineItemPrice = Math.floor(Math.random() * 100);
+      this.orderLineItemList.push(lineItem);
+    }
   }
 }

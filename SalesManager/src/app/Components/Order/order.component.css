@@ -1,4 +1,4 @@
-
+/* product list */
 .productItemCard{
     height: 40px;
     border-radius: 5px;
@@ -16,7 +16,7 @@
     justify-content: center;
     align-items: center;
     width: 20%;
-   
+    
 }
 
 .productItemCardButton .btn-success {
@@ -42,31 +42,102 @@
     height: 18px;
 }
 
-/* product list */
+
 .container {
     display: flex;
     column-gap: 20px;
 }
 
+.productPanel{
+    height: 50vh;
+}
+/* shoppingList*/
+.shoppingList{
+    height: 62.8vh;
+}
+.shoppingList > div
+{
+    display: flex;
+    width: 100%;
+    
+    border-bottom: solid 1px #80808024;
+}
+
+.shoppingListProductsTitle{
+    min-height: 20px;
+}
+
+.shoppingListProductsTitle>div{
+    display: flex;
+    align-items: end;
+    margin-bottom: 5px;
+    font-size: 11px;
+    color: gray;
+}
+
+.shoppingListProducts>div{
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+    color: rgb(168, 168, 168);
+}
+
+.shoppingListProducts>div:nth-child(1){
+    color: gray;
+    font-size: 12px;
+    font-weight: 410;
+}
+
+.shoppingListProducts>div:nth-child(1),
+.shoppingListProductsTitle>div:nth-child(1){
+    width: 46%;
+}
+
+.shoppingListProductsTitle>div:nth-child(2),
+.shoppingListProductsTitle>div:nth-child(3),
+.shoppingListProductsTitle>div:nth-child(4){
+    border-left: solid #80808036 1px;
+}
+.shoppingListProducts>div:nth-child(2),
+.shoppingListProducts>div:nth-child(3),
+.shoppingListProducts>div:nth-child(4),
+.shoppingListProductsTitle>div:nth-child(2),
+.shoppingListProductsTitle>div:nth-child(3),
+.shoppingListProductsTitle>div:nth-child(4){
+    width: 18%;
+    justify-content: center;
+    
+}
+
+.qtyProduct{
+    height: 20px;
+    width: 30px;
+    text-align: center;
+
+}
+.shoppingListProducts
+{
+    min-height: 40px;
+}
+/* scroll bar*/
 .scrollbar {
-    height: 60vh;
     overflow: auto;
     width: 100%;
 }
 
 
-#scrollbar2::-webkit-scrollbar {
+.scrollbar::-webkit-scrollbar {
     width: 12px;
 }
 
-#scrollbar2::-webkit-scrollbar-track {
+.scrollbar::-webkit-scrollbar-track {
     border-radius: 3px;
     background-color: #e7e7e7;
     border: 1px solid #cacaca;
     box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
 }
 
-#scrollbar2::-webkit-scrollbar-thumb {
+.scrollbar::-webkit-scrollbar-thumb {
     border-radius: 3px;
     background-color: #7b887d;
 }
