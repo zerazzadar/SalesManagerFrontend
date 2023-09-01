@@ -65,21 +65,23 @@ export class OrderComponent implements OnInit {
     this.productService.getListProducts().subscribe({
       next: (valor: Product[]) => {
         this.products = valor;
-        this.fillOrderLineItemArray(8);
         this.products$.next(valor);
       },
       error: (err) => console.log(err),
     });
   }
 
-  protected searchProductbyId(productId: number): Product {
+  protected getProductbyId(productId: number): Product {
     return this.products.find((product) => product.id === productId)!;
   }
 
-  protected addProductToCar(event: Event): void {
-    console.log((event.target as HTMLInputElement).value);
-  }
+  protected existsOrderLineProduct(productId: number): boolean {
+    var lineItem = this.orderLineItemList.find(
+      (lineitem) => lineitem.productId === productId
+    );
 
+    return lineItem != null;
+  }
   protected updateProductFilteredList(packageName: string) {
     this.searchText$.next(packageName);
   }
@@ -98,15 +100,43 @@ export class OrderComponent implements OnInit {
       (item) => item.id! === Number(orderItemId)
     );
 
-    let product = this.searchProductbyId(
-      this.orderLineItemList[index].productId
-    );
+    let product = this.getProductbyId(this.orderLineItemList[index].productId);
 
     this.orderLineItemList[index].quantity = Number(value);
     this.orderLineItemList[index].lineItemPrice = product.price * Number(value);
   }
 
-  keyPressNumbers(event: KeyboardEvent) {
+  protected addOrderLineItem(event: Event) {
+    let productId = Number((event.target as HTMLInputElement).value);
+
+    if (!this.existsOrderLineProduct(productId)) {
+      let lineItem = new OrderLineItem();
+      lineItem.id = this.getNextOrderLineItemId();
+      lineItem.productId = productId;
+      lineItem.orderId = 0;
+      lineItem.quantity = 1;
+      lineItem.lineItemPrice = this.getProductbyId(productId).price;
+
+      this.orderLineItemList.push(lineItem);
+    }
+  }
+
+  protected deleteOrderLineItem(id: number): void {
+    const itemIndex = this.orderLineItemList.findIndex(
+      (item) => item.id === id
+    );
+    this.orderLineItemList = this.orderLineItemList.splice(itemIndex, 1);
+  }
+
+  private getNextOrderLineItemId(): number {
+    const maxId = this.orderLineItemList.reduce(
+      (max, item) => Math.max(max, item.id ?? 0),
+      0
+    );
+    return maxId + 1;
+  }
+
+  protected keyPressNumbers(event: KeyboardEvent) {
     const key = event.key;
     if (!/[0-9]/.test(key)) {
       event.preventDefault();

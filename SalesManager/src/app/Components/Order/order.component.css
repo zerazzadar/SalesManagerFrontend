@@ -109,6 +109,16 @@
     
 }
 
+.shoppingListProductsEmpty{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: italic;
+    min-height: 50px;
+    font-size: 11px;
+    color: #80808078;
+}
+
 .qtyProduct{
     height: 20px;
     width: 30px;
@@ -119,6 +129,8 @@
 {
     min-height: 40px;
 }
+
+
 /* scroll bar*/
 .scrollbar {
     overflow: auto;
