@@ -1,13 +1,13 @@
 import { Component, OnInit, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import {
-  Observable,
   Subject,
   Subscription,
   debounceTime,
   distinctUntilChanged,
   switchMap,
 } from "rxjs";
+import { OrderLineItem } from "src/app/Models/OrderLineItem";
 import { Product } from "src/app/Models/Product";
 import { AccountService } from "src/app/Services/accountService.service";
 import { OrderService } from "src/app/Services/orderService.service";
@@ -19,11 +19,13 @@ import { ProductService } from "src/app/Services/productService.service";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
-  protected products: Product[] = [];
+  protected products: OrderLineItem[] = [];
+
   public loading: boolean = false;
   private obs$!: Subscription;
   public productName: string = "";
 
+  public products$: Subject<Product[]> = new Subject<Product[]>();
   private searchText$ = new Subject<string>();
 
   constructor(
@@ -31,11 +33,18 @@ export class OrderComponent implements OnInit {
     private orderService: OrderService,
     private productService: ProductService,
     private router: Router
-  ) {
-    this.products = [];
-  }
+  ) {}
 
   ngOnInit() {
+    this.loadAllProducts();
+    this.LinkRefreshProductsForFilter();
+  }
+
+  ngOnDestroy() {
+    this.obs$.unsubscribe();
+  }
+
+  private LinkRefreshProductsForFilter(): void {
     this.obs$ = this.searchText$
       .pipe(
         debounceTime(500),
@@ -45,27 +54,33 @@ export class OrderComponent implements OnInit {
         })
       )
       .subscribe((response) => {
-        console.log(response);
+        this.products$.next(response);
       });
   }
 
-  ngOnDestroy() {
-    this.obs$.unsubscribe();
+  private loadAllProducts(): void {
+    this.productService.getListProducts().subscribe({
+      next: (valor: Product[]) => {
+        this.products$.next(valor);
+      },
+      error: (err) => console.log(err),
+    });
   }
 
   getValue(event: Event): string {
     return (event.target as HTMLInputElement).value;
   }
 
+  public addProductToCart(event: Event): void {
+    console.log((event.target as HTMLInputElement).value);
+  }
+
   search(packageName: string) {
     this.searchText$.next(packageName);
   }
 
-  LoadAccounts(): void {
-    this.loading = true;
-    this.productService.getListProducts().subscribe((data) => {
-      this.loading = false;
-      this.products = data;
-    });
+  public resetFilter(): void {
+    this.productName = "";
+    this.loadAllProducts();
   }
 }
