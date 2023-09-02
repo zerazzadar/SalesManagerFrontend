@@ -28,9 +28,10 @@
 .productItemCardButton button{
     font-size: .575rem;
 }
+
 .productItemCardTitle{
     color: gray;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 410;
     height: 18px;
     border-bottom: solid 1px #80808024;
@@ -48,14 +49,15 @@
     column-gap: 20px;
 }
 
+
 .productPanel{
-    height: 50vh;
+     height: 50vh; 
 }
-/* shoppingList*/
-.shoppingList{
-    height: 62.8vh;
+/* orderItemList*/
+.orderItemListPanel{
+     height: 40vh; 
 }
-.shoppingList > div
+.orderItemListPanel > div
 {
     display: flex;
     width: 100%;
@@ -63,11 +65,11 @@
     border-bottom: solid 1px #80808024;
 }
 
-.shoppingListProductsTitle{
+.orderLineItemListTitle{
     min-height: 20px;
 }
 
-.shoppingListProductsTitle>div{
+.orderLineItemListTitle>div{
     display: flex;
     align-items: end;
     margin-bottom: 5px;
@@ -75,41 +77,49 @@
     color: gray;
 }
 
-.shoppingListProducts>div{
+.orderLineItemList>div{
     display: flex;
     align-items: center;
-    font-size: 11px;
+    font-size: 10px;
     color: rgb(168, 168, 168);
 }
 
-.shoppingListProducts>div:nth-child(1){
+.orderLineItemList>div:nth-child(1){
     color: gray;
-    font-size: 12px;
     font-weight: 410;
 }
 
-.shoppingListProducts>div:nth-child(1),
-.shoppingListProductsTitle>div:nth-child(1){
-    width: 46%;
+.orderLineItemList>div:nth-child(1),
+.orderLineItemListTitle>div:nth-child(1){
+    width: 40%;
 }
 
-.shoppingListProductsTitle>div:nth-child(2),
-.shoppingListProductsTitle>div:nth-child(3),
-.shoppingListProductsTitle>div:nth-child(4){
+.orderLineItemListTitle>div:nth-child(2),
+.orderLineItemListTitle>div:nth-child(3),
+.orderLineItemListTitle>div:nth-child(4),
+.orderLineItemListTitle>div:nth-child(5){
     border-left: solid #80808036 1px;
 }
-.shoppingListProducts>div:nth-child(2),
-.shoppingListProducts>div:nth-child(3),
-.shoppingListProducts>div:nth-child(4),
-.shoppingListProductsTitle>div:nth-child(2),
-.shoppingListProductsTitle>div:nth-child(3),
-.shoppingListProductsTitle>div:nth-child(4){
-    width: 18%;
+.orderLineItemList>div:nth-child(2),
+.orderLineItemList>div:nth-child(4),
+.orderLineItemListTitle>div:nth-child(2),
+.orderLineItemListTitle>div:nth-child(4){
+    width: 20%;
     justify-content: center;
-    
+}
+.orderLineItemList>div:nth-child(3),
+.orderLineItemListTitle>div:nth-child(3){
+    width: 13%;
+    justify-content: center;
+}
+.orderLineItemList>div:nth-child(5),
+.orderLineItemListTitle>div:nth-child(5)
+{
+    justify-content: center;
+    width: 7%;
 }
 
-.shoppingListProductsEmpty{
+.orderItemListEmpty{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,11 +135,60 @@
     text-align: center;
 
 }
-.shoppingListProducts
+.orderLineItemList
 {
     min-height: 40px;
 }
 
+.deleteIcon{
+    color: #898989;
+    cursor: pointer;
+    font-size: 19px;
+}
+
+/* submit Panel bar*/
+.submitOrderPanel{
+    height: 20vh;
+    padding: 0.6rem;
+}
+
+.submitOrderPanel>div{
+margin: .2rem;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+}
+
+.submitOrderPanel>div:nth-child(1),
+.submitOrderPanel>div:nth-child(2),
+.submitOrderPanel>div:nth-child(3)
+{
+   
+    color: gray;
+}
+
+.submitOrderPanel>div:nth-child(1),
+.submitOrderPanel>div:nth-child(2)
+{
+    font-size: 11px;
+}
+.submitOrderPanel>div:nth-child(3){
+    padding-top: 5px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.submitOrderPanel>div:last-child
+{
+    margin-top: .6rem;
+}
+
+.submitOrderPanel>div:nth-child(1) span:last-child,
+.submitOrderPanel>div:nth-child(2) span:last-child,
+.submitOrderPanel>div:nth-child(3) span:last-child
+{
+    margin-left: 5rem;
+}
 
 /* scroll bar*/
 .scrollbar {

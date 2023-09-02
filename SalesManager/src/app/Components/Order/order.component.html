@@ -4,7 +4,7 @@
 
     <div class="col-12 col-sm-6 px-0">
       <div class="row">
-        <div class="col-12 col-sm-6">
+        <div class="col-12 col-sm-5">
           <mat-card>
             <mat-card-header>
               <mat-card-title>Product List</mat-card-title>
@@ -19,7 +19,11 @@
                     matInput
                     type="text"
                     [(ngModel)]="productName"
-                    (keyup)="updateProductFilteredList(getValue($event))"
+                    (keyup)="
+                      updateProductFilteredList(
+                        getInputElementFromEvent($event).value
+                      )
+                    "
                   />
                   <button
                     *ngIf="productName"
@@ -60,48 +64,100 @@
             </mat-card-content>
           </mat-card>
         </div>
-        <div class="col-12 col-sm-6">
-          <mat-card>
-            <mat-card-header>
-              <mat-card-title>Shopping List</mat-card-title>
-            </mat-card-header>
-            <mat-card-content class="mt-2">
-              <div class="scrollbar shoppingList">
-                <div class="shoppingListProductsTitle d-flex">
-                  <div>Product</div>
-                  <div>Unit Price</div>
-                  <div>Quantity</div>
-                  <div>Total</div>
-                </div>
-                <div
-                  class="shoppingListProductsEmpty"
-                  *ngIf="orderLineItemList.length === 0"
-                >
-                  <div>No Items Selected</div>
-                </div>
-                <div
-                  *ngFor="let orderItem of orderLineItemList"
-                  class="shoppingListProducts d-flex"
-                >
-                  <div>{{ getProductbyId(orderItem.productId).name }}</div>
-                  <div>{{ getProductbyId(orderItem.productId).price }}</div>
-                  <div>
-                    <input
-                      id="{{ orderItem.id }}"
-                      type="text"
-                      class="qtyProduct"
-                      attr.data-orderItem="{{ orderItem.id }}"
-                      aria-label="Small"
-                      value="{{ orderItem.quantity }}"
-                      (keypress)="keyPressNumbers($event)"
-                      (keyup)="setOrderLineItemLQuantity($event)"
-                    />
+        <div class="col-12 col-sm-7">
+          <div class="flex-column d-flex">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Shopping List</mat-card-title>
+              </mat-card-header>
+              <mat-card-content class="mt-2">
+                <div class="scrollbar orderItemListPanel">
+                  <div class="orderLineItemListTitle d-flex">
+                    <div>Product</div>
+                    <div>Unit Price</div>
+                    <div>Quantity</div>
+                    <div>Total</div>
+                    <div></div>
                   </div>
-                  <div>{{ orderItem.lineItemPrice | currency }}</div>
+                  <div
+                    class="orderItemListEmpty"
+                    *ngIf="orderLineItemList.length === 0"
+                  >
+                    <div>No Items Selected</div>
+                  </div>
+                  <div
+                    *ngFor="let orderItem of orderLineItemList"
+                    class="orderLineItemList d-flex"
+                    orderLineItemList
+                  >
+                    <div>{{ getProductbyId(orderItem.productId).name }}</div>
+                    <div>{{ getProductbyId(orderItem.productId).price }}</div>
+                    <div>
+                      <input
+                        id="{{ orderItem.id }}"
+                        type="text"
+                        maxlength="4"
+                        class="qtyProduct"
+                        attr.data-orderItem="{{ orderItem.id }}"
+                        aria-label="Small"
+                        value="{{ orderItem.quantity }}"
+                        (keypress)="keyPressNumbers($event)"
+                        (keyup)="
+                          setOrderLineItemLQuantity(
+                            getInputAttrOrderId(
+                              getInputElementFromEvent($event)
+                            ),
+                            getInputElementFromEvent($event).value
+                          )
+                        "
+                      />
+                    </div>
+                    <div>{{ orderItem.lineItemPrice | currency }}</div>
+                    <div
+                      class="d-flex justify-content-center align-items-center"
+                    >
+                      <mat-icon
+                        aria-hidden="false"
+                        aria-label="Example home icon"
+                        fontIcon="delete"
+                        class="deleteIcon"
+                        attr.data-orderItem="{{ orderItem.id }}"
+                        (click)="
+                          deleteOrderLineItem(
+                            getInputAttrOrderId(
+                              getInputElementFromEvent($event)
+                            )
+                          )
+                        "
+                      ></mat-icon>
+                    </div>
+                  </div>
+                </div>
+              </mat-card-content>
+            </mat-card>
+            <mat-card class="mt-2">
+              <div class="submitOrderPanel d-flex flex-column">
+                <div>
+                  <span>Subtotal:</span><span>{{ subTotal | currency }}</span>
+                </div>
+                <div>
+                  <span>Taxes({{ taxes }}%):</span
+                  ><span>{{ taxesSubTotal | currency }}</span>
+                </div>
+                <div>
+                  <span>Total:</span><span>{{ total | currency }}</span>
+                </div>
+                <div>
+                  <button
+                    class="btn btn-default"
+                    [disabled]="orderLineItemList.length === 0"
+                  >
+                    Submit Order
+                  </button>
                 </div>
               </div>
-            </mat-card-content>
-          </mat-card>
+            </mat-card>
+          </div>
         </div>
       </div>
     </div>

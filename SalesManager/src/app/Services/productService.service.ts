@@ -24,7 +24,7 @@ export class ProductService {
     return this.http.get<Product[]>(this.myAppUrl + this.myApiUrl);
   }
 
-  public getListProductsWthName(name: string): Observable<Product[]> {
+  public getListProductsWithName(name: string): Observable<Product[]> {
     if (typeof name != "undefined" && name) {
       return this.http.get<Product[]>(
         this.myAppUrl + this.myApiUrl + this.productsWithName + name

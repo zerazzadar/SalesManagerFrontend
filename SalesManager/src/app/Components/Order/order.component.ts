@@ -12,6 +12,8 @@ import { Product } from "src/app/Models/Product";
 import { AccountService } from "src/app/Services/accountService.service";
 import { OrderService } from "src/app/Services/orderService.service";
 import { ProductService } from "src/app/Services/productService.service";
+import { Utils } from "src/app/Utils/Utils";
+import { environment } from "src/environments/environment.development";
 
 @Component({
   selector: "app-order",
@@ -19,16 +21,20 @@ import { ProductService } from "src/app/Services/productService.service";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  protected utilClass: Utils;
+  protected taxes: number;
   protected orderLineItemList: OrderLineItem[] = [];
   protected products: Product[] = [];
   public loading: boolean = false;
   public productName: string = "";
 
+  protected subTotal: number = 0;
+  protected taxesSubTotal: number = 0;
+  protected total: number = 0;
+
   private obs$!: Subscription;
   public products$: Subject<Product[]> = new Subject<Product[]>();
-  public orderLineItemList$: Subject<OrderLineItem[]> = new Subject<
-    OrderLineItem[]
-  >();
+
   private searchText$ = new Subject<string>();
 
   constructor(
@@ -36,7 +42,10 @@ export class OrderComponent implements OnInit {
     private orderService: OrderService,
     private productService: ProductService,
     private router: Router
-  ) {}
+  ) {
+    this.utilClass = new Utils();
+    this.taxes = environment.taxesValue;
+  }
 
   ngOnInit() {
     this.loadAllProducts();
@@ -53,7 +62,7 @@ export class OrderComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged(),
         switchMap((text) => {
-          return this.productService.getListProductsWthName(text);
+          return this.productService.getListProductsWithName(text);
         })
       )
       .subscribe((response) => {
@@ -91,11 +100,10 @@ export class OrderComponent implements OnInit {
     this.loadAllProducts();
   }
 
-  protected setOrderLineItemLQuantity(event: Event): void {
-    let input = event.target as HTMLInputElement;
-    let orderItemId = input.getAttribute("data-orderItem")!;
-    let value = input.value;
-
+  protected setOrderLineItemLQuantity(
+    orderItemId: string,
+    value: string
+  ): void {
     const index = this.orderLineItemList.findIndex(
       (item) => item.id! === Number(orderItemId)
     );
@@ -104,6 +112,8 @@ export class OrderComponent implements OnInit {
 
     this.orderLineItemList[index].quantity = Number(value);
     this.orderLineItemList[index].lineItemPrice = product.price * Number(value);
+
+    this.updateTotalValues();
   }
 
   protected addOrderLineItem(event: Event) {
@@ -118,14 +128,37 @@ export class OrderComponent implements OnInit {
       lineItem.lineItemPrice = this.getProductbyId(productId).price;
 
       this.orderLineItemList.push(lineItem);
+      this.updateTotalValues();
     }
   }
 
-  protected deleteOrderLineItem(id: number): void {
+  protected deleteOrderLineItem(id: string): void {
     const itemIndex = this.orderLineItemList.findIndex(
-      (item) => item.id === id
+      (item) => item.id === Number(id)
     );
-    this.orderLineItemList = this.orderLineItemList.splice(itemIndex, 1);
+    this.orderLineItemList.splice(itemIndex, 1);
+    this.updateTotalValues();
+  }
+
+  private updateTotalValues(): void {
+    this.updateSubTotal();
+    this.updateTaxesTotal();
+    this.updateTotal();
+  }
+
+  private updateSubTotal() {
+    this.subTotal = this.orderLineItemList.reduce((accumulator, lineItem) => {
+      accumulator += lineItem.lineItemPrice;
+      return accumulator;
+    }, 0);
+  }
+
+  private updateTaxesTotal() {
+    this.taxesSubTotal = (this.subTotal * this.taxes) / 100;
+  }
+
+  private updateTotal() {
+    this.total = this.subTotal + this.taxesSubTotal;
   }
 
   private getNextOrderLineItemId(): number {
@@ -138,24 +171,16 @@ export class OrderComponent implements OnInit {
 
   protected keyPressNumbers(event: KeyboardEvent) {
     const key = event.key;
-    if (!/[0-9]/.test(key)) {
+    if (!this.utilClass.IsNumericKey(key)) {
       event.preventDefault();
     }
   }
 
-  protected getValue(event: Event): string {
-    return (event.target as HTMLInputElement).value;
+  protected getInputElementFromEvent(event: Event): HTMLInputElement {
+    return event.target as HTMLInputElement;
   }
 
-  fillOrderLineItemArray(lineItemCount: number): void {
-    for (let i = 0; i < lineItemCount; i++) {
-      const lineItem = new OrderLineItem();
-      lineItem.id = Math.floor(Math.random() * 1000);
-      lineItem.productId = i + 1;
-      lineItem.orderId = Math.floor(Math.random() * 1000);
-      lineItem.quantity = Math.floor(Math.random() * 10);
-      lineItem.lineItemPrice = Math.floor(Math.random() * 100);
-      this.orderLineItemList.push(lineItem);
-    }
+  protected getInputAttrOrderId(input: HTMLInputElement): string {
+    return input.getAttribute("data-orderItem")!;
   }
 }
