@@ -18,11 +18,7 @@ export class AccountComponent implements OnInit {
   myControl = new FormControl<Account>(new Account());
   filteredAccounts: Observable<Account[]> | undefined;
 
-  constructor(
-    private accountService: AccountService,
-    private orderService: OrderService,
-    private router: Router
-  ) {
+  constructor(private accountService: AccountService, private router: Router) {
     this.accounts = [];
   }
 
@@ -65,7 +61,7 @@ export class AccountComponent implements OnInit {
     let accountId = this.myControl.value?.id;
 
     if (accountId != null) {
-      this.orderService.setAccountId(accountId);
+      this.accountService.setCurrentAccountId(accountId);
     }
 
     this.router.navigate(["/Order"]);

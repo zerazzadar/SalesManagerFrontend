@@ -7,6 +7,7 @@ import {
   distinctUntilChanged,
   switchMap,
 } from "rxjs";
+import { Order } from "src/app/Models/Order";
 import { OrderLineItem } from "src/app/Models/OrderLineItem";
 import { Product } from "src/app/Models/Product";
 import { AccountService } from "src/app/Services/accountService.service";
@@ -21,6 +22,8 @@ import { environment } from "src/environments/environment.development";
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  protected order: Order = new Order();
+
   protected utilClass: Utils;
   protected taxes: number;
   protected orderLineItemList: OrderLineItem[] = [];
@@ -91,6 +94,7 @@ export class OrderComponent implements OnInit {
 
     return lineItem != null;
   }
+
   protected updateProductFilteredList(packageName: string) {
     this.searchText$.next(packageName);
   }
@@ -144,6 +148,12 @@ export class OrderComponent implements OnInit {
     this.updateSubTotal();
     this.updateTaxesTotal();
     this.updateTotal();
+
+    this.order.OrderLineItems = this.orderLineItemList;
+    this.order.accountId = this.accountService.getCurrentAccountId();
+    this.order.subtotal = this.subTotal;
+    this.order.taxes = this.taxesSubTotal;
+    this.order.total = this.total;
   }
 
   private updateSubTotal() {
@@ -167,6 +177,12 @@ export class OrderComponent implements OnInit {
       0
     );
     return maxId + 1;
+  }
+
+  protected SaveOrder(): void {
+    this.orderService.saveOrder(this.order).subscribe((data) => {
+      this.router.navigate(["/"]);
+    });
   }
 
   protected keyPressNumbers(event: KeyboardEvent) {

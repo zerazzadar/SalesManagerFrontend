@@ -80,7 +80,7 @@
 .orderLineItemList>div{
     display: flex;
     align-items: center;
-    font-size: 10px;
+    font-size: 12px;
     color: rgb(168, 168, 168);
 }
 
@@ -148,7 +148,7 @@
 
 /* submit Panel bar*/
 .submitOrderPanel{
-    height: 20vh;
+    height: 18.4vh;
     padding: 0.6rem;
 }
 

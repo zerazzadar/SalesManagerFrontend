@@ -8,6 +8,7 @@ import { Account } from "../Models/Account";
   providedIn: "root",
 })
 export class AccountService {
+  private currentAccountId: number = 0;
   public myAppUrl: string = environment.urlService; //esta es la ruta de mi backend
   public myApiUrl = "Accounts/"; //esta es la API direccion del controller a donde quiero apuntar
   httpOptions = {
@@ -22,20 +23,11 @@ export class AccountService {
     return this.http.get<Account[]>(this.myAppUrl + this.myApiUrl);
   }
 
-  // deleteComentario(id: number): Observable<Comentario> {
-  //   return this.http.delete<Comentario>(this.myAppUrl + this.myApiUrl + id);
-  // }
+  public setCurrentAccountId(accountId: number): void {
+    this.currentAccountId = accountId;
+  }
 
-  // guardarComentario(comentario: Comentario): Observable<Comentario> {
-  //   return this.http.post<Comentario>(this.myAppUrl + this.myApiUrl,comentario,this.httpOptions);
-  // }
-
-  // cargarComentario(id: number): Observable<Comentario> {
-  //   return this.http.get<Comentario>(this.myAppUrl + this.myApiUrl + id);
-  // }
-
-  // actualizarComentario(id: number,comentario: Comentario): Observable<Comentario> {
-  //   return this.http.put<Comentario>(this.myAppUrl + this.myApiUrl + id,comentario,this.httpOptions
-  //   );
-  // }
+  public getCurrentAccountId(): number {
+    return this.currentAccountId;
+  }
 }

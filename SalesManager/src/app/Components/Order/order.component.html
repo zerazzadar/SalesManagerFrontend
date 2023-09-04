@@ -151,6 +151,7 @@
                   <button
                     class="btn btn-default"
                     [disabled]="orderLineItemList.length === 0"
+                    (click)="SaveOrder()"
                   >
                     Submit Order
                   </button>
