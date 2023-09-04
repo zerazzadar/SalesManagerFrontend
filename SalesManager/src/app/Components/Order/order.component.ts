@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import {
   Subject,
@@ -15,6 +16,7 @@ import { OrderService } from "src/app/Services/orderService.service";
 import { ProductService } from "src/app/Services/productService.service";
 import { Utils } from "src/app/Utils/Utils";
 import { environment } from "src/environments/environment.development";
+import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: "app-order",
@@ -44,10 +46,15 @@ export class OrderComponent implements OnInit {
     private accountService: AccountService,
     private orderService: OrderService,
     private productService: ProductService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {
     this.utilClass = new Utils();
     this.taxes = environment.taxesValue;
+
+    var currentAccount = accountService.getCurrentAccountId();
+    // if()(
+    // this.router.navigate(["/"]);
   }
 
   ngOnInit() {
@@ -122,7 +129,7 @@ export class OrderComponent implements OnInit {
 
   protected addOrderLineItem(event: Event) {
     let productId = Number((event.target as HTMLInputElement).value);
-
+    // debugger;
     if (!this.existsOrderLineProduct(productId)) {
       let lineItem = new OrderLineItem();
       lineItem.id = this.getNextOrderLineItemId();
@@ -198,5 +205,15 @@ export class OrderComponent implements OnInit {
 
   protected getInputAttrOrderId(input: HTMLInputElement): string {
     return input.getAttribute("data-orderItem")!;
+  }
+
+  protected openDialogConfirmOrder(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: "204px",
+      data: "Confirm this Order?",
+    });
+    dialogRef.afterClosed().subscribe((res) => {
+      this.SaveOrder();
+    });
   }
 }

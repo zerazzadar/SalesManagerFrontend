@@ -19,7 +19,7 @@
     
 }
 
-.productItemCardButton .btn-success {
+.productItemCardButton .buyButton{
     color: #fff;
     background-color: #6ebb54;
     border-color: #6ebb54;
@@ -51,10 +51,12 @@
 
 
 .productPanel{
+    min-height: 284px;
      height: 50vh; 
 }
 /* orderItemList*/
 .orderItemListPanel{
+    min-height: 215px;
      height: 40vh; 
 }
 .orderItemListPanel > div
@@ -148,6 +150,7 @@
 
 /* submit Panel bar*/
 .submitOrderPanel{
+     min-height: 147px;
     height: 18.4vh;
     padding: 0.6rem;
 }

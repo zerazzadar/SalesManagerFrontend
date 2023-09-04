@@ -51,7 +51,7 @@
                     <div class="productItemCardButton">
                       <button
                         type="button"
-                        class="btn btn-success btn-sm"
+                        class="btn btn-success btn-sm buyButton"
                         value="{{ product.id }}"
                         (click)="addOrderLineItem($event)"
                       >
@@ -135,6 +135,7 @@
                 </div>
               </mat-card-content>
             </mat-card>
+
             <mat-card class="mt-2">
               <div class="submitOrderPanel d-flex flex-column">
                 <div>
@@ -149,9 +150,10 @@
                 </div>
                 <div>
                   <button
+                    mat-raised-button
                     class="btn btn-default"
                     [disabled]="orderLineItemList.length === 0"
-                    (click)="SaveOrder()"
+                    (click)="openDialogConfirmOrder()"
                   >
                     Submit Order
                   </button>
@@ -162,7 +164,5 @@
         </div>
       </div>
     </div>
-
-    <div class="col-12 col-sm-3 d-none d-sm-block"></div>
   </div>
 </div>

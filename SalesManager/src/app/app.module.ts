@@ -10,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { OrderComponent } from "./Components/Order/order.component";
+import { ConfirmDialogComponent } from "./Components/confirm-dialog/confirm-dialog.component";
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { OrderComponent } from "./Components/Order/order.component";
     NavBarComponent,
     AccountComponent,
     OrderComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,6 +30,7 @@ import { OrderComponent } from "./Components/Order/order.component";
     HttpClientModule,
     MatProgressSpinnerModule,
   ],
+  entryComponents: [ConfirmDialogComponent],
   providers: [],
   bootstrap: [AppComponent],
 })
