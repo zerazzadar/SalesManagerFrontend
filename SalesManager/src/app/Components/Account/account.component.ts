@@ -62,6 +62,7 @@ export class AccountComponent implements OnInit {
 
     if (accountId != null) {
       this.accountService.setCurrentAccountId(accountId);
+      this.accountService.setCurrentAccountName(this.myControl.value!.name);
     }
 
     this.router.navigate(["/Order"]);

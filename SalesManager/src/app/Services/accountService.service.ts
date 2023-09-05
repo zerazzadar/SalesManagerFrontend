@@ -9,6 +9,8 @@ import { Account } from "../Models/Account";
 })
 export class AccountService {
   private currentAccountId: number = 0;
+  private currentAccountName: string = "";
+
   public myAppUrl: string = environment.urlService; //esta es la ruta de mi backend
   public myApiUrl = "Accounts/"; //esta es la API direccion del controller a donde quiero apuntar
   httpOptions = {
@@ -29,5 +31,13 @@ export class AccountService {
 
   public getCurrentAccountId(): number {
     return this.currentAccountId;
+  }
+
+  public setCurrentAccountName(accountName: string): void {
+    this.currentAccountName = accountName;
+  }
+
+  public getCurrentAccountName(): string {
+    return this.currentAccountName;
   }
 }

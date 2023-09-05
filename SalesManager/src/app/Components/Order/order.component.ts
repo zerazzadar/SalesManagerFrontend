@@ -24,6 +24,7 @@ import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.compone
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  protected currentAcountName: string = "";
   protected order: Order = new Order();
 
   protected utilClass: Utils;
@@ -51,19 +52,24 @@ export class OrderComponent implements OnInit {
   ) {
     this.utilClass = new Utils();
     this.taxes = environment.taxesValue;
-
-    var currentAccount = accountService.getCurrentAccountId();
-    // if()(
-    // this.router.navigate(["/"]);
   }
 
   ngOnInit() {
     this.loadAllProducts();
     this.ProductFilterLoad();
+    this.validateHaveSelectedAccountId();
+    this.currentAcountName = this.accountService.getCurrentAccountName();
   }
 
   ngOnDestroy() {
     this.obs$.unsubscribe();
+  }
+
+  private validateHaveSelectedAccountId() {
+    var currentAccount = this.accountService.getCurrentAccountId();
+    if (!currentAccount) {
+      this.router.navigate(["/"]);
+    }
   }
 
   private ProductFilterLoad(): void {
@@ -213,7 +219,9 @@ export class OrderComponent implements OnInit {
       data: "Confirm this Order?",
     });
     dialogRef.afterClosed().subscribe((res) => {
-      this.SaveOrder();
+      if (res) {
+        this.SaveOrder();
+      }
     });
   }
 }
