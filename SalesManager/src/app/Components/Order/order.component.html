@@ -170,6 +170,14 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div
+          class="col-12 d-flex alert alert-danger justify-content-center align-items-center m-3"
+          *ngIf="orderError"
+        >
+          Error processing Order!
+        </div>
+      </div>
     </div>
 
     <div class="col-12 col-sm-3 d-none d-sm-block"></div>

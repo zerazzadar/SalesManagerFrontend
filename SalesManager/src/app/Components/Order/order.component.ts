@@ -24,6 +24,8 @@ import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.compone
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  protected orderError: boolean = false;
+
   protected currentAcountName: string = "";
   protected order: Order = new Order();
 
@@ -193,8 +195,12 @@ export class OrderComponent implements OnInit {
   }
 
   protected SaveOrder(): void {
-    this.orderService.saveOrder(this.order).subscribe((data) => {
-      this.router.navigate(["/"]);
+    this.orderService.saveOrder(this.order).subscribe({
+      next: () => {
+        this.router.navigate(["/"]);
+        this.orderError = false;
+      },
+      error: () => (this.orderError = true),
     });
   }
 
@@ -215,8 +221,8 @@ export class OrderComponent implements OnInit {
 
   protected openDialogConfirmOrder(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "204px",
-      data: "Confirm this Order?",
+      width: "260px",
+      data: "Confirm submit this Order?",
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {
