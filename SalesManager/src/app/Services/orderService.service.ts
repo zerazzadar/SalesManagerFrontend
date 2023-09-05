@@ -8,6 +8,7 @@ import { environment } from "src/environments/environment.development";
   providedIn: "root",
 })
 export class OrderService {
+  private orderStatusDone: boolean = false;
   public appUrl: string = environment.urlService;
   public apiOrderUrl = "Order/";
 
@@ -25,5 +26,13 @@ export class OrderService {
       order,
       this.httpOptions
     );
+  }
+
+  public setOrderStatusDone(status: boolean): void {
+    this.orderStatusDone = status;
+  }
+
+  public getOrderStatusDone(): boolean {
+    return this.orderStatusDone;
   }
 }

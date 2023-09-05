@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { AccountComponent } from "./Components/Account/account.component";
 import { OrderComponent } from "./Components/Order/order.component";
+import { SuccessfulComponent } from "./Components/successful/successful.component";
 
 const routes: Routes = [
   {
@@ -15,6 +16,10 @@ const routes: Routes = [
     pathMatch: "full",
   },
   {
+    path: "Resume",
+    component: SuccessfulComponent,
+  },
+  {
     path: "",
     component: AccountComponent,
     pathMatch: "full",
@@ -24,18 +29,6 @@ const routes: Routes = [
     component: AccountComponent,
     pathMatch: "full",
   },
-  // {
-  //   path: 'editar/:id',component: AgregarEditarComentarioComponent
-  // },
-  // {
-  //   path: 'ver/:id',component: VerComentariosComponent
-  // },
-  // {
-  //   path: '',component: ListComentariosComponent,pathMatch:'full'
-  // },
-  // {
-  //   path: '**',component: Error404Component
-  // }
 ];
 
 @NgModule({

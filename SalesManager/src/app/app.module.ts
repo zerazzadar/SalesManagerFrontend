@@ -11,6 +11,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { OrderComponent } from "./Components/Order/order.component";
 import { ConfirmDialogComponent } from "./Components/confirm-dialog/confirm-dialog.component";
+import { SuccessfulComponent } from './Components/successful/successful.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ConfirmDialogComponent } from "./Components/confirm-dialog/confirm-dial
     AccountComponent,
     OrderComponent,
     ConfirmDialogComponent,
+    SuccessfulComponent,
   ],
   imports: [
     BrowserModule,

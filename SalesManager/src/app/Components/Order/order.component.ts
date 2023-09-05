@@ -70,7 +70,7 @@ export class OrderComponent implements OnInit {
   private validateHaveSelectedAccountId() {
     var currentAccount = this.accountService.getCurrentAccountId();
     if (!currentAccount) {
-      this.router.navigate(["/"]);
+      this.router.navigate(["/Account/"]);
     }
   }
 
@@ -197,8 +197,9 @@ export class OrderComponent implements OnInit {
   protected SaveOrder(): void {
     this.orderService.saveOrder(this.order).subscribe({
       next: () => {
-        this.router.navigate(["/"]);
         this.orderError = false;
+        this.orderService.setOrderStatusDone(true);
+        this.router.navigate(["/Resume"]);
       },
       error: () => (this.orderError = true),
     });
