@@ -16,7 +16,7 @@ const routes: Routes = [
     pathMatch: "full",
   },
   {
-    path: "Resume",
+    path: "Summary",
     component: SuccessfulComponent,
   },
   {

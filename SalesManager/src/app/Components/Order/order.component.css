@@ -2,12 +2,16 @@
 .orderTittle{
     font-size: 2rem;
     height: 3rem;
-    
+    margin-bottom: 1rem;
+}
+
+.colorTittle{
+    color: #48422e;
 }
 
 /* product list */
 .productItemCard{
-    height: 40px;
+    height: 50px;
     border-radius: 5px;
     border: solid #80808021 1px;
     -webkit-box-shadow: 0px 1px 0px 0px rgb(0 0 0 / 14%);
@@ -30,24 +34,27 @@
     color: #fff;
     background-color: #6ebb54;
     border-color: #6ebb54;
+    box-shadow: rgb(235, 235, 235) 2px 2px 3px, rgb(255, 255, 255) 2px 2px 1px;
 }
 
 .productItemCardButton button{
-    font-size: .575rem;
+    font-size: 0.875rem;
 }
 
 .productItemCardTitle{
     color: gray;
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 410;
     height: 18px;
     border-bottom: solid 1px #80808024;
+    line-height: 11px;
 }
 
 .productItemCardBody{
     color: gray;
-    font-size: 11px;
+    font-size: 13px;
     height: 18px;
+    line-height: 23px;
 }
 
 .container {
@@ -156,6 +163,18 @@
 }
 
 /* submit Panel bar*/
+
+.btn-dark.disabled, .btn-dark:disabled {
+    color: #fff;
+    background-color: #9d9d9d;
+    border-color: #9d9d9d;
+}
+
+.btn-dark{
+    background-color: #6ebb54;    
+    border: none;
+}
+
 .submitOrderPanel{
      min-height: 147px;
     height: 18.4vh;
@@ -173,17 +192,16 @@ margin: .2rem;
 .submitOrderPanel>div:nth-child(2),
 .submitOrderPanel>div:nth-child(3)
 {
-   
+    padding-top: 2px;
     color: gray;
 }
 
 .submitOrderPanel>div:nth-child(1),
 .submitOrderPanel>div:nth-child(2)
 {
-    font-size: 11px;
+    font-size: 14px;
 }
 .submitOrderPanel>div:nth-child(3){
-    padding-top: 5px;
     font-size: 15px;
     font-weight: 500;
 }
@@ -221,4 +239,5 @@ margin: .2rem;
 .scrollbar::-webkit-scrollbar-thumb {
     border-radius: 3px;
     background-color: #7b887d;
+    /* background-color: #9b9b9b; */
 }

@@ -1,0 +1,16 @@
+.confirmModal
+{
+    min-width: 313px;
+    min-height: 180px;
+}
+.btnConfirm{
+    background-color: #6ebb54;
+}
+
+.btn{
+    width: 52px;
+    height: 36px;
+    border: none;
+    box-shadow:rgb(235, 235, 235) 2px 2px 3px, rgb(255, 255, 255) 2px 2px 1px;
+}
+

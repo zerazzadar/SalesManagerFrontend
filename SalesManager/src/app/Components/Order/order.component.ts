@@ -199,7 +199,7 @@ export class OrderComponent implements OnInit {
       next: () => {
         this.orderError = false;
         this.orderService.setOrderStatusDone(true);
-        this.router.navigate(["/Resume"]);
+        this.router.navigate(["/Summary"]);
       },
       error: () => (this.orderError = true),
     });
@@ -222,7 +222,6 @@ export class OrderComponent implements OnInit {
 
   protected openDialogConfirmOrder(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "260px",
       data: "Confirm submit this Order?",
     });
     dialogRef.afterClosed().subscribe((res) => {

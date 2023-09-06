@@ -8,15 +8,21 @@
           width="150hv"
           src="assets/imgs/Check.svg"
           alt="My Happy SVG"
-          class="mb-5"
+          class="mb-3"
         />
         <span class="textResume m-3"
           >Your order has been submitted successfully!</span
         >
-        <button mat-raised-button class="m-2" (click)="navigateToOrder()">
+        <button
+          class="m-2 btn btn-dark buttonsWith"
+          (click)="navigateToOrder()"
+        >
           Create another Order
         </button>
-        <button mat-raised-button class="m-2" (click)="navigateToAccount()">
+        <button
+          class="m-2 btn btn-dark buttonsWith"
+          (click)="navigateToAccount()"
+        >
           Change Account
         </button>
       </div>
