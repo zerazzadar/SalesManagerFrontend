@@ -1,11 +1,11 @@
 <div class="container-fluid w-100">
   <div class="row">
-    <div class="col-12 col-sm-3 d-none d-sm-block"></div>
+    <div class="col-12 col-sm-0 col-lg-3 d-none d-sm-block"></div>
 
-    <div class="col-12 col-sm-6 px-0">
+    <div class="col-12 col-sm-12 col-lg-6 px-0">
       <div class="row">
         <div
-          class="col-12 d-flex justify-content-center align-items-center orderTittle"
+          class="col-12 d-flex justify-content-center align-items-center orderTittle colorTittle"
         >
           Order for: {{ currentAcountName }}
         </div>
@@ -14,7 +14,7 @@
         <div class="col-12 col-sm-5">
           <mat-card>
             <mat-card-header>
-              <mat-card-title>Product List</mat-card-title>
+              <mat-card-title class="colorTittle">Product List</mat-card-title>
             </mat-card-header>
             <mat-card-content>
               <div
@@ -45,7 +45,7 @@
                 <div class="scrollbar productPanel px-2">
                   <div
                     *ngFor="let product of products$ | async"
-                    class="productItemCard d-flex mb-2"
+                    class="productItemCard d-flex mb-2 d-flex align-items-center"
                   >
                     <div class="productItemCardContent flex-column d-flex">
                       <div class="productItemCardTitle mx-1">
@@ -71,11 +71,13 @@
             </mat-card-content>
           </mat-card>
         </div>
-        <div class="col-12 col-sm-7">
+        <div class="col-12 col-sm-7 mt-2 mt-2 mt-sm-0">
           <div class="flex-column d-flex">
             <mat-card>
               <mat-card-header>
-                <mat-card-title>Shopping List</mat-card-title>
+                <mat-card-title class="colorTittle"
+                  >Shopping List</mat-card-title
+                >
               </mat-card-header>
               <mat-card-content class="mt-2">
                 <div class="scrollbar orderItemListPanel">
@@ -103,7 +105,7 @@
                       <input
                         id="{{ orderItem.id }}"
                         type="text"
-                        maxlength="4"
+                        maxlength="3"
                         class="qtyProduct"
                         attr.data-orderItem="{{ orderItem.id }}"
                         aria-label="Small"
@@ -157,8 +159,7 @@
                 </div>
                 <div>
                   <button
-                    mat-raised-button
-                    class="btn btn-default"
+                    class="btn btn-dark submitButton"
                     [disabled]="orderLineItemList.length === 0"
                     (click)="openDialogConfirmOrder()"
                   >
@@ -170,8 +171,16 @@
           </div>
         </div>
       </div>
+      <div class="row">
+        <div
+          class="col-12 d-flex alert alert-danger justify-content-center align-items-center m-3"
+          *ngIf="orderError"
+        >
+          Error processing Order!
+        </div>
+      </div>
     </div>
 
-    <div class="col-12 col-sm-3 d-none d-sm-block"></div>
+    <div class="col-12 col-sm-0 col-lg-3 d-none d-sm-block"></div>
   </div>
 </div>

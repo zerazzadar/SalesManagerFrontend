@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  urlService: "https://localhost:7179/api",
+  urlService: "https://localhost:5001/api/",
+  taxesValue: 7,
 };

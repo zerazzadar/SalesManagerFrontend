@@ -24,6 +24,8 @@ import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.compone
   styleUrls: ["./order.component.css"],
 })
 export class OrderComponent implements OnInit {
+  protected orderError: boolean = false;
+
   protected currentAcountName: string = "";
   protected order: Order = new Order();
 
@@ -68,7 +70,7 @@ export class OrderComponent implements OnInit {
   private validateHaveSelectedAccountId() {
     var currentAccount = this.accountService.getCurrentAccountId();
     if (!currentAccount) {
-      this.router.navigate(["/"]);
+      this.router.navigate(["/Account/"]);
     }
   }
 
@@ -193,8 +195,13 @@ export class OrderComponent implements OnInit {
   }
 
   protected SaveOrder(): void {
-    this.orderService.saveOrder(this.order).subscribe((data) => {
-      this.router.navigate(["/"]);
+    this.orderService.saveOrder(this.order).subscribe({
+      next: () => {
+        this.orderError = false;
+        this.orderService.setOrderStatusDone(true);
+        this.router.navigate(["/Summary"]);
+      },
+      error: () => (this.orderError = true),
     });
   }
 
@@ -215,8 +222,7 @@ export class OrderComponent implements OnInit {
 
   protected openDialogConfirmOrder(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      width: "204px",
-      data: "Confirm this Order?",
+      data: "Confirm submit this Order?",
     });
     dialogRef.afterClosed().subscribe((res) => {
       if (res) {

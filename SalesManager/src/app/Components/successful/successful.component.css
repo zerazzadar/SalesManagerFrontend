@@ -1,0 +1,13 @@
+.Resume{
+    height: 90vh;
+}
+.textResume{
+    font-size: 3vh;
+    color: #686868;
+    line-height: 6vh;
+    text-align: center;
+}
+
+.buttonsWith{
+    width: 175px;
+}
