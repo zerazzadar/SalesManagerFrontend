@@ -12,8 +12,13 @@ import { OrderService } from "src/app/Services/orderService.service";
   styleUrls: ["./account.component.css"],
 })
 export class AccountComponent implements OnInit {
+  readonly UNKNOWNERROR: string = "Unknown Error";
+  readonly HTTPERRORRESPONSE: string = "HttpErrorResponse";
+
   protected accounts: Account[] = [];
-  public loading: boolean = false;
+  protected loading: boolean = false;
+  protected errorMessage: string = "";
+  protected accesError: boolean = false;
 
   myControl = new FormControl<Account>(new Account());
   filteredAccounts: Observable<Account[]> | undefined;
@@ -28,10 +33,28 @@ export class AccountComponent implements OnInit {
 
   LoadAccounts(): void {
     this.loading = true;
-    this.accountService.getListAccounts().subscribe((data) => {
-      this.loading = false;
-      this.accounts = data;
-      this.FillFilteredAccounts();
+    this.accesError = false;
+
+    this.accountService.getListAccounts().subscribe({
+      next: (data) => {
+        this.loading = false;
+        this.accounts = data;
+        this.FillFilteredAccounts();
+      },
+      error: (err) => {
+        this.accesError = true;
+        if (
+          err.name == this.HTTPERRORRESPONSE &&
+          err.statusText == this.UNKNOWNERROR &&
+          err.status == 0
+        ) {
+          this.errorMessage = "Fail connecting with the host!";
+        } else {
+          this.errorMessage = err.error;
+        }
+        console.log(err);
+      },
+      complete: () => console.log("complete"),
     });
   }
 
